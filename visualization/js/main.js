@@ -25,8 +25,6 @@ function init() {
     const totalNeurons = CONFIG.network.layers.reduce((a, b) => a + b, 0);
     state.tpmData = generateTPM(totalNeurons);
     updateTPMDisplay(state.tpmData);
-
-    state.renderer.render(state.scene, state.camera);
     
     // Start animation loop
     startAnimation();

@@ -1,7 +1,7 @@
 // Configuration for the neural network
 export const CONFIG = {
     network: {
-        layers: [2, 8, 8, 1], // Network architecture: input, hidden, output
+        layers: [2, 8, 8, 4, 1], // Network architecture: input, hidden, output
         layerSpacing: 5,
         verticalSpacing: 2,
         neuronSize: 0.4,
@@ -18,8 +18,9 @@ export const CONFIG = {
     },
     
     colors: {
+        //neuronBase: 0xEFE9E3
         background: 0x0f1419,
-        neuronBase: 0xEFE9E3,
+        neuronBase: 0x9CC6DB,
         neuronActive: 0x88b4e6,
         neuronEmissiveActive: 0x6699cc,
         connectionBase: 0x9ECFD4,
@@ -32,12 +33,14 @@ export const CONFIG = {
     
     materials: {
         neuron: {
-            metalness: 0.2,
-            roughness: 0.4,
+            metalness: 0.1,
+            roughness: 0.3,
             emissiveIntensity: 1
         },
         connection: {
-            opacity: 0.7
+            opacityMin: 0.3,
+            opacityMax: 0.95
+
         }
     },
     
