@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "./IIT_VISUALIZER/models",
+    "./IIT_VISUALIZER/iit"
+  ]
+}

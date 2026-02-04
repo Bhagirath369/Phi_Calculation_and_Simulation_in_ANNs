@@ -1,56 +1,72 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
-# --- Title ---
+# Add the project root to Python path
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from IIT_VISUALIZER.models.train_model import get_available_models, train_model
+from build_tpm import generate_tpm
+from compute_phi import calculate_phi
+
+
 st.title("IIT VISUALIZER UI")
 
-# --- Mode Selection ---
+# --- Select Mode ---
 st.subheader("Select Mode")
-mode = st.radio("", ["🔴 Train Network", "🔴 Load Trained Model"], index=0, horizontal=True)
+mode = st.radio("", ["Train Network", "Load Trained Model"], horizontal=True)
+
+# --- Model Selection ---
+st.subheader("Choose Model")
+models = get_available_models()
+model_name = st.selectbox("Select a model architecture", models)
 
 # --- Epoch Slider ---
-st.subheader("Epoch Slider")
-epoch = st.slider("Select Epoch", min_value=1, max_value=100, value=10, step=1)
+st.subheader("Set Epoch")
+epoch = st.slider("Select Epoch", min_value=1, max_value=100, value=10)
 
-# --- Display Current Φ ---
-current_phi = 0.812  # This should be dynamically computed in your backend
-st.subheader(f"Current Φ = {current_phi}")
+# --- Trigger Training or Load ---
+if st.button("🚀 Run"):
+    with st.spinner("Processing..."):
+        if mode == "Train Network":
+            train_model(model_name, epoch)  # Saves binarized_states.npy
 
-# --- Plot: Φ vs Epoch ---
-st.markdown("### Plot: Φ vs Epoch")
-# Placeholder dummy plot
-epochs = np.arange(1, epoch + 1)
-phi_values = np.random.uniform(0.6, 0.85, size=epoch)
-fig, ax = plt.subplots()
-ax.plot(epochs, phi_values, marker='o')
-ax.set_xlabel("Epoch")
-ax.set_ylabel("Φ (Phi)")
-ax.set_title("Φ vs Epoch")
-st.pyplot(fig)
+        # TPM & Connectivity
+        tpm_matrix, connectivity_matrix = generate_tpm("binarized_states.npy")
 
-# --- Heatmaps Section ---
-st.markdown("### HEATMAP: TPM")
-# Dummy heatmap for TPM
-tpm_matrix = np.random.rand(6, 6)
-fig_tpm, ax_tpm = plt.subplots()
-cax = ax_tpm.matshow(tpm_matrix, cmap='viridis')
-fig_tpm.colorbar(cax)
-st.pyplot(fig_tpm)
+        # Φ Calculation
+        phi = calculate_phi(tpm_matrix)
 
-st.markdown("### HEATMAP: CONNECTIVITY")
-# Dummy heatmap for connectivity
-connectivity_matrix = np.random.randint(0, 2, (6, 6))
-fig_conn, ax_conn = plt.subplots()
-cax2 = ax_conn.matshow(connectivity_matrix, cmap='cividis')
-fig_conn.colorbar(cax2)
-st.pyplot(fig_conn)
+        # --- Display Φ ---
+        st.success(f"Current Φ = {phi:.4f}")
 
-# --- Export Section ---
-st.markdown("### Export Results")
-col1, col2 = st.columns(2)
-with col1:
-    st.download_button("📁 Export CSV", data="Epoch,Phi\n1,0.7\n2,0.75", file_name="phi_results.csv", mime="text/csv")
-with col2:
-    st.download_button("🖼 Export PNG", data=b"", file_name="phi_plot.png", mime="image/png", disabled=True)
+        # --- Φ vs Epoch Plot (placeholder logic for plotting) ---
+        st.markdown("### Φ vs Epoch Plot")
+        epochs = np.arange(1, epoch + 1)
+        phi_values = np.linspace(0.65, phi, epoch)  # placeholder: simulate increasing φ
+        fig_phi, ax_phi = plt.subplots()
+        ax_phi.plot(epochs, phi_values, marker='o')
+        ax_phi.set_xlabel("Epoch")
+        ax_phi.set_ylabel("Φ (Phi)")
+        ax_phi.set_title("Φ vs Epoch")
+        st.pyplot(fig_phi)
 
+        # --- TPM Heatmap ---
+        st.markdown("### Heatmap: TPM")
+        fig_tpm, ax_tpm = plt.subplots()
+        cax1 = ax_tpm.matshow(tpm_matrix, cmap='viridis')
+        fig_tpm.colorbar(cax1)
+        st.pyplot(fig_tpm)
+
+        # --- Connectivity Heatmap ---
+        st.markdown("### Heatmap: Connectivity")
+        fig_conn, ax_conn = plt.subplots()
+        cax2 = ax_conn.matshow(connectivity_matrix, cmap='cividis')
+        fig_conn.colorbar(cax2)
+        st.pyplot(fig_conn)
+
+        # --- Export CSV ---
+        csv_data = "Epoch,Phi\n" + "\n".join([f"{i+1},{phi_values[i]:.4f}" for i in range(epoch)])
+        st.download_button("📁 Export CSV", data=csv_data, file_name="phi_results.csv", mime="text/csv")

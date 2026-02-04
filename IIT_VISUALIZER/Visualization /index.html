@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IIT Φ Visualization</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>IIT Φ Visualization</h1>
+        <p>
+          Integrated Information Theory - Minimum Information Partition Analysis
+        </p>
+      </div>
+
+      <div class="main-content">
+        <!-- Top Section: 3D Visualization -->
+        <div class="visualization-section">
+          <div class="visualization-container">
+            <div id="canvas-container"></div>
+
+            <div class="controls-overlay">
+              <div class="button-group">
+                <button id="startBtn" class="btn-start">Start</button>
+                <button id="stopBtn" class="btn-stop" disabled>Stop</button>
+                <button id="resetBtn" class="btn-reset">Reset</button>
+              </div>
+              <div class="epoch-display">
+                <span class="label">Epoch:</span>
+                <span class="value" id="epochValue">0</span>
+              </div>
+            </div>
+
+            <div class="info-overlay">
+              <div class="info-row">
+                <span class="label">Architecture:</span>
+                <span class="value" id="architecture">2-8-8-4-1</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Status:</span>
+                <span class="value status-stopped" id="status">Stopped</span>
+              </div>
+              <div class="info-row phi-row">
+                <span class="label">Φ (Phi):</span>
+                <span class="value phi-value" id="phiValue">0.0000</span>
+              </div>
+            </div>
+
+            <div class="legend-overlay">
+              <div class="legend-title">Node Partitions</div>
+              <div class="legend-item">
+                <div class="legend-color partition-a-color"></div>
+                <span>Subsystem A</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color partition-b-color"></div>
+                <span>Subsystem B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Section: Matrices and Chart -->
+        <div class="analysis-section">
+          <!-- Left: TPM Matrix -->
+          <div class="matrix-panel">
+            <div id="tpmMatrix" class="matrix-container"></div>
+            <div id="emptyState" class="empty-state">
+              Start simulation to see matrix updates
+            </div>
+          </div>
+
+          <!-- Center: Phi Chart -->
+          <div class="chart-panel">
+            <div class="chart-header">
+              <h2>Φ vs Epoch</h2>
+              <p>Integrated Information Over Time</p>
+            </div>
+            <div id="phiChart" class="phi-chart"></div>
+            <div class="chart-info">
+              <div class="info-badge">
+                <span class="badge-label">Current Φ:</span>
+                <span class="badge-value" id="chartPhiValue">0.0000</span>
+              </div>
+              <div class="info-badge">
+                <span class="badge-label">Epoch:</span>
+                <span class="badge-value" id="chartEpochValue">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: MIP Matrix -->
+          <div class="matrix-panel">
+            <div id="mipMatrix" class="matrix-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module scripts -->
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/state.js"></script>
+    <script type="module" src="js/tpm.js"></script>
+    <script type="module" src="js/scene.js"></script>
+    <script type="module" src="js/network.js"></script>
+    <script type="module" src="js/controls.js"></script>
+    <script type="module" src="js/animation.js"></script>
+    <script type="module" src="js/ui.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
