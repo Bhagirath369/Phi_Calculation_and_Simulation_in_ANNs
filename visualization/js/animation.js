@@ -19,13 +19,14 @@ function animate() {
 
 function animateNeurons() {
     const { pulseSpeed, pulseAmount, interpolationSpeed } = CONFIG.animation;
+    const maxScale = 1.0 + pulseAmount; // Cap the maximum scale
     
     if (state.isRunning) {
         state.neurons.flat().forEach((neuron) => {
             if (neuron.userData.isActive) {
                 // Smooth pulsing for active neurons
                 const pulse = Math.sin(state.time * pulseSpeed) * pulseAmount + (1 + pulseAmount);
-                neuron.userData.targetScale = pulse;
+                neuron.userData.targetScale = Math.min(pulse, maxScale);
             } else {
                 neuron.userData.targetScale = 1.0;
             }
