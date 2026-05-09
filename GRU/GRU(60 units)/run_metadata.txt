@@ -1,0 +1,20 @@
+MULTI-METHOD Φ* FRAMEWORK RUN
+==================================================
+
+Timestamp: 20251215_125402
+Hidden Size: 60
+Epochs: 30
+Batch Size: 32
+Learning Rate: 0.001
+
+Φ* Config:
+{
+  "methods": [
+    "stochastic"
+  ],
+  "n_samples": 2000,
+  "tau": 1,
+  "regularization": 1e-06,
+  "n_partitions_sample": 20,
+  "pca_components": null
+}

@@ -1,0 +1,2 @@
+total_epochs,initial_train_loss,final_train_loss,best_train_loss,initial_val_loss,final_val_loss,best_val_loss,initial_phi_star,final_phi_star,max_phi_star,mean_phi_star,std_phi_star,correlation_phi_val_loss,correlation_phi_train_loss
+200,5.198181896209717,4.111406097412109,4.095142741203308,5.309431114196777,5.551535320281983,5.273935222625733,0.28296129375906587,4.885486378705121,5.49001163481791,3.6415269713648,1.4095484682499881,0.8141506112382523,-0.9534998795206089
